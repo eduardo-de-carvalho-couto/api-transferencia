@@ -1,0 +1,15 @@
+<doctrine-mapping>
+    <mapped-superclass name="App\Dominio\Usuario\Usuario">
+
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="nome" column="nome" type="string" length="45" />
+
+        <field name="email" column="email" type="string" length="45" />
+
+        <field name="senha" column="senha" type="string" length="19" />
+        
+    </mapped-superclass>
+</doctrine-mapping>
