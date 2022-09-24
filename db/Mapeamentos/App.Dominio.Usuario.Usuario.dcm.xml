@@ -7,9 +7,9 @@
 
         <field name="nome" column="nome" type="string" length="45" />
 
-        <field name="email" column="email" type="string" length="45" />
+        <field name="email" column="email" type="email" length="45" nullable="false" />
 
-        <field name="senha" column="senha" type="string" length="19" />
+        <field name="senha" column="senha" type="string" length="19" nullable="true" />
         
     </mapped-superclass>
 </doctrine-mapping>

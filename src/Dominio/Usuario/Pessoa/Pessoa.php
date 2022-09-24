@@ -22,6 +22,12 @@ class Pessoa extends Usuario
         $this->cpf = $cpf;
     }
 
+    public function setDocumento(string $cpf): self
+    {
+        $this->cpf = new Cpf($cpf);
+        return $this;
+    }
+
     public function getDocumento(): string
     {
         return $this->cpf;

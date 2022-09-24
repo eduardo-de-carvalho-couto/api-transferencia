@@ -1,0 +1,23 @@
+Registrar Loja (App\Testes\Aplicacao\Pessoa\RegistrarLoja)
+ [x] Loja deve ser adicionada ao repositorio
+
+Registrar Pessoa (App\Testes\Aplicacao\Pessoa\RegistrarPessoa)
+ [x] Pessoa deve ser adicionada ao repositorio
+
+Cnpj (App\Testes\Dominio\Cnpj)
+ [x] Cnpj com numero no formato invalido nao deve poder existir
+ [x] Cnpj deve poder ser representado como string
+
+Cpf (App\Testes\Dominio\Cpf)
+ [x] Cpf com numero no formato invalido nao deve poder existir
+ [x] Cpf deve poder ser representado como string
+
+Email (App\Testes\Dominio\Email)
+ [x] Email no formato invalido nao deve poder existir
+ [x] Email deve poder ser representado como string
+
+Pessoa (App\Testes\Dominio\Pessoa\Pessoa)
+ [x] Pessoa deve ser criada com documento nome e email valido
+ [x] Pessoa deve poder atualizar o email
+ [x] Pessoa deve poder atualizar o cpf
+

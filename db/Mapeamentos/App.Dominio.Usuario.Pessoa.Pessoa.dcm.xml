@@ -5,7 +5,7 @@
 
       <entity name="App\Dominio\Usuario\Pessoa\Pessoa" table="pessoas">
 
-        <field name="cpf" type="string" length="15" />
+        <field name="cpf" type="cpf" length="15" />
           
       </entity>
 </doctrine-mapping>

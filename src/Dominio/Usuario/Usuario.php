@@ -4,7 +4,7 @@ namespace App\Dominio\Usuario;
 
 use App\Dominio\Email;
 
-abstract class Usuario 
+abstract class Usuario
 {
     protected int $id;
     protected string $nome;
@@ -19,12 +19,29 @@ abstract class Usuario
         $this->email = $email;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setNome(string $nome): self
+    {
+        $this->nome = $nome;
+        return $this;
+    }
+
     public function getNome(): string
     {
         return $this->nome;
     }
     
     abstract public function getDocumento(): string;
+
+    public function setEmail(string $endereco): self
+    {
+        $this->email = new Email($endereco);
+        return $this;
+    }
 
     public function getEmail(): string
     {
