@@ -1,3 +1,35 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+nova_pessoa:
+    path: /pessoas
+    controller: App\Controller\PessoaController::novo
+    methods:
+        - POST
+
+pessoas:
+    path: /pessoas
+    controller: App\Controller\PessoaController::buscarTodos
+    methods:
+        - GET
+
+pessoa:
+    path: /pessoas/{id}
+    controller: App\Controller\PessoaController::buscarUsuario
+    methods:
+        - GET
+
+atualiza_pessoa:
+    path: /pessoas/{id}
+    controller: App\Controller\PessoaController::atualizar
+    methods:
+        - PUT
+
+remove_pessoa:
+    path: /pessoas/{id}
+    controller: App\Controller\PessoaController::remove
+    methods:
+        - DELETE
+
+

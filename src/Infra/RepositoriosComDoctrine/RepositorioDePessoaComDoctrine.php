@@ -2,22 +2,31 @@
 
 namespace App\Infra\Usuario\RepositoriosComDoctrine;
 
-use App\Aplicacao\Usuario\Pessoa\RegistrarPessoa\RegistrarPessoaDto;
+use App\Aplicacao\Usuario\UsuarioDto;
 use App\Dominio\Cpf;
 use App\Dominio\Usuario\Pessoa\Pessoa;
 use App\Dominio\Usuario\Pessoa\RepositorioDePessoa;
+use App\Dominio\Usuario\RepositorioInterface;
+use App\Dominio\Usuario\Usuario;
 use App\Helper\EntityManagerCreator;
+use Doctrine\ORM\EntityRepository;
 
-class RepositorioDePessoaComDoctrine implements RepositorioDePessoa
+class RepositorioDePessoaComDoctrine implements RepositorioInterface, RepositorioDePessoa
 {
     /**
      *  @var EntityManagerInterface
      */
     private $entityManager;
 
+    /**
+     * @var EntityRepository
+     */
+    private $registro;
+
     public function __construct()
     {
         $this->entityManager = EntityManagerCreator::createEntityManager();
+        $this->registro = $this->entityManager->getRepository(Pessoa::class);
     }
 
     public function adicionar(Pessoa $pessoa): void
@@ -26,28 +35,26 @@ class RepositorioDePessoaComDoctrine implements RepositorioDePessoa
         $this->entityManager->flush();
     }
 
+    public function buscarPorId(int $id): ?Usuario
+    {
+        $pessoa = $this->registro->find($id);
+
+        return $pessoa;
+    }
+
     public function buscarPorCpf(Cpf $cpf): Pessoa
     {
         //
     }
 
-    public function buscarPorId(int $id): ?Pessoa
-    {
-        $registro = $this->entityManager->getRepository(Pessoa::class);
-        $pessoa = $registro->find($id);
-
-        return $pessoa;
-    }
-
     public function buscarTodos(): array
     {
-        $registro = $this->entityManager->getRepository(Pessoa::class);
-        $pessoasLista = $registro->findAll();
+        $pessoasLista = $this->registro->findAll();
         
         return $pessoasLista;
     }
 
-    public function atualizar(int $id, RegistrarPessoaDto $pessoaDto): ?Pessoa
+    public function atualizar(int $id, UsuarioDto $pessoaDto): ?Pessoa
     {
         $pessoaExistente = $this->buscarPorId($id);
         if(is_null($pessoaExistente)){
@@ -55,9 +62,9 @@ class RepositorioDePessoaComDoctrine implements RepositorioDePessoa
         }
 
         $pessoaAtualizada = $pessoaExistente
-            ->setDocumento($pessoaDto->cpfPessoa)
-            ->setNome($pessoaDto->nomePessoa)
-            ->setEmail($pessoaDto->emailPessoa);
+            ->setDocumento($pessoaDto->documentoUsuario)
+            ->setNome($pessoaDto->nomeUsuario)
+            ->setEmail($pessoaDto->emailUsuario);
         
         $this->entityManager->flush();
         
