@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Aplicacao\Usuario\UsuarioDto;
 use App\Dominio\Usuario\RepositorioInterface;
 use App\Helper\ExtratorDadosRequest;
+use App\Helper\ResponseFactory;
 use App\Infra\JsonSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,25 +42,32 @@ abstract class BaseController extends AbstractController
             ($paginaAtual - 1) * $itensPorPagina
         );
         
-        foreach($entidadeLista as $entidade){
-            $entidade = new JsonSerializer($entidade);
-            $entidade->jsonSerialize();
-            $entidades[] = $entidade;
-        }
+        $fabricaResposta = new ResponseFactory(
+            true,
+            $entidadeLista,
+            Response::HTTP_OK,
+            $paginaAtual,
+            $itensPorPagina
+        );
         
-        return new JsonResponse($entidades);
+        return $fabricaResposta->getResponse();
     }
 
     public function buscarUsuario(int $id): Response
     {
         $entidade = $this->repositorio->buscarPorId($id);
 
-        $codigoRetorno = is_null($entidade) ? Response::HTTP_NO_CONTENT : 200;
+        $statusResposta = is_null($entidade) 
+            ? Response::HTTP_NO_CONTENT 
+            : Response::HTTP_OK;
 
-        $entidade = new JsonSerializer($entidade);
-        $entidade->jsonSerialize();
+        $fabricaResposta = new ResponseFactory(
+            true,
+            $entidade,
+            $statusResposta
+        );
 
-        return new JsonResponse($entidade, $codigoRetorno);
+        return $fabricaResposta->getResponse();
     }
 
     public function atualizar(int $id, Request $request): Response
@@ -73,15 +81,25 @@ abstract class BaseController extends AbstractController
             $dadoEmJson->email
         );
 
-        $entidade = $this->repositorio->atualizar($id, $dadosEntidade);
-        if(is_null($entidade)){
-            return new Response('', Response::HTTP_NOT_FOUND);
+        try {
+            $entidade = $this->repositorio->atualizar($id, $dadosEntidade);
+            
+            $fabrica = new ResponseFactory(
+                true,
+                $entidade,
+                Response::HTTP_OK
+            );
+
+            return $fabrica->getResponse();
+        } catch (\InvalidArgumentException $ex) {
+            $fabrica = new ResponseFactory(
+                false,
+                'Recurso não encontrado',
+                Response::HTTP_NOT_FOUND
+            );
+
+            return $fabrica->getResponse();
         }
-
-        $entidade = new JsonSerializer($entidade);
-        $entidade->jsonSerialize();
-
-        return new JsonResponse($entidade);
     }
 
     public function remove(int $id): Response

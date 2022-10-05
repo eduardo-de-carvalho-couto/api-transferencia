@@ -6,7 +6,7 @@ use App\Dominio\Cpf;
 use App\Dominio\Email;
 use App\Dominio\Usuario\Usuario;
 
-class Pessoa extends Usuario
+class Pessoa extends Usuario implements \JsonSerializable
 {
     private Cpf $cpf;
 
@@ -31,5 +31,21 @@ class Pessoa extends Usuario
     public function getDocumento(): string
     {
         return $this->cpf;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'documento' => $this->getDocumento(),
+            'nome' => $this->getNome(),
+            'email' => $this->getEmail(),
+            '_links' => [
+                [
+                    'rel' => 'self',
+                    'path' => '/pessoas/' . $this->getId()
+                ],
+            ],
+        ];
     }
 }

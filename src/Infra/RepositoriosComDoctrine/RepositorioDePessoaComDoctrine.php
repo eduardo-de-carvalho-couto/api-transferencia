@@ -62,7 +62,7 @@ class RepositorioDePessoaComDoctrine implements RepositorioInterface, Repositori
     {
         $pessoaExistente = $this->buscarPorId($id);
         if(is_null($pessoaExistente)){
-            return $pessoaExistente;
+            throw new \InvalidArgumentException();
         }
 
         $pessoaAtualizada = $pessoaExistente
