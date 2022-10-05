@@ -2,7 +2,7 @@
 
 namespace Api\Transferencia\Infra;
 
-use Api\Transferencia\Dominio\Usuario\CifradorDeSenha;
+use App\Dominio\Usuario\CifradorDeSenha;
 
 class CifradorDeSenhaPhp implements CifradorDeSenha
 {

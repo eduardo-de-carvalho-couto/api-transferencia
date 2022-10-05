@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Aplicacao\Usuario\Pessoa\RegistrarPessoa\RegistrarPessoa;
 use App\Aplicacao\Usuario\Pessoa\RegistrarPessoa\RegistrarPessoaDto;
-use App\Aplicacao\Usuario\UsuarioDto;
-use App\Dominio\Usuario\Pessoa\RepositorioDePessoa;
-use App\Infra\JsonSerialize;
+use App\Helper\ExtratorDadosRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +18,9 @@ class PessoaController extends BaseController
      */
     private $pessoasRepositorio;
 
-    public function __construct(RepositorioDePessoaComDoctrine $pessoasRepositorio)
+    public function __construct(RepositorioDePessoaComDoctrine $pessoasRepositorio, ExtratorDadosRequest $extratorDadosRequest)
     {
-        parent::__construct($pessoasRepositorio);
+        parent::__construct($pessoasRepositorio, $extratorDadosRequest);
         $this->pessoasRepositorio = $pessoasRepositorio;
     }
 

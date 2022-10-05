@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Aplicacao\Usuario\UsuarioDto;
 use App\Dominio\Usuario\RepositorioInterface;
-use App\Infra\JsonSerialize;
+use App\Helper\ExtratorDadosRequest;
+use App\Infra\JsonSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Dominio\Usuario\Pessoa\RepositorioDePessoa;
 
 abstract class BaseController extends AbstractController
 {
@@ -17,22 +17,36 @@ abstract class BaseController extends AbstractController
      * @var RepositorioInterface
      */
     protected $repositorio;
+    /**
+     * @var ExtratorDadosRequest;
+     */
+    protected $extratorDadosRequest;
 
-    public function __construct(RepositorioInterface $repositorio)
+    public function __construct(RepositorioInterface $repositorio, ExtratorDadosRequest $extratorDadosRequest)
     {
         $this->repositorio = $repositorio;
+        $this->extratorDadosRequest = $extratorDadosRequest;
     }
 
-    public function buscarTodos(): Response
+    public function buscarTodos(Request $request): Response
     {
-        $entidadeLista = $this->repositorio->buscarTodos();
+        $filtro = $this->extratorDadosRequest->buscarDadosFiltro($request);
+        $informacoesDeOrdenacao = $this->extratorDadosRequest->buscarDadosOrdenacao($request);
+        [$paginaAtual, $itensPorPagina] = $this->extratorDadosRequest->buscarDadosPaginacao($request);
+        
+        $entidadeLista = $this->repositorio->getRegistro()->findBy(
+            $filtro, 
+            $informacoesDeOrdenacao,
+            $itensPorPagina,
+            ($paginaAtual - 1) * $itensPorPagina
+        );
         
         foreach($entidadeLista as $entidade){
-            $entidade = new JsonSerialize($entidade);
+            $entidade = new JsonSerializer($entidade);
             $entidade->jsonSerialize();
             $entidades[] = $entidade;
         }
-
+        
         return new JsonResponse($entidades);
     }
 
@@ -42,7 +56,7 @@ abstract class BaseController extends AbstractController
 
         $codigoRetorno = is_null($entidade) ? Response::HTTP_NO_CONTENT : 200;
 
-        $entidade = new JsonSerialize($entidade);
+        $entidade = new JsonSerializer($entidade);
         $entidade->jsonSerialize();
 
         return new JsonResponse($entidade, $codigoRetorno);
@@ -64,7 +78,7 @@ abstract class BaseController extends AbstractController
             return new Response('', Response::HTTP_NOT_FOUND);
         }
 
-        $entidade = new JsonSerialize($entidade);
+        $entidade = new JsonSerializer($entidade);
         $entidade->jsonSerialize();
 
         return new JsonResponse($entidade);

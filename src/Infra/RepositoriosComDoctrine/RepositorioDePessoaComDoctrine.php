@@ -29,6 +29,11 @@ class RepositorioDePessoaComDoctrine implements RepositorioInterface, Repositori
         $this->registro = $this->entityManager->getRepository(Pessoa::class);
     }
 
+    public function getRegistro(): EntityRepository
+    {
+        return $this->registro;
+    }
+
     public function adicionar(Pessoa $pessoa): void
     {
         $this->entityManager->persist($pessoa);
@@ -50,7 +55,6 @@ class RepositorioDePessoaComDoctrine implements RepositorioInterface, Repositori
     public function buscarTodos(): array
     {
         $pessoasLista = $this->registro->findAll();
-        
         return $pessoasLista;
     }
 

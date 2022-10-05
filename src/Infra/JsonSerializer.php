@@ -4,7 +4,7 @@ namespace App\Infra;
 
 use App\Dominio\Usuario\Usuario;
 
-class JsonSerialize implements \JsonSerializable
+class JsonSerializer implements \JsonSerializable
 {
     private ?Usuario $usuario;
 
