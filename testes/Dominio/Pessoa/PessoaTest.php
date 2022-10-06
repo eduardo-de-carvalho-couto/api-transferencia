@@ -12,7 +12,8 @@ class PessoaTest extends TestCase
         $pessoa = Pessoa::comDocumentoNomeEEmail(
             '123.456.789-10',
             'Teste',
-            'teste@teste.com'
+            'teste@teste.com',
+            '12345678'
         );
         
         $this->assertSame('123.456.789-10', $pessoa->getDocumento());
@@ -25,7 +26,8 @@ class PessoaTest extends TestCase
         $pessoa = Pessoa::comDocumentoNomeEEmail(
             '123.456.789-10',
             'Edu',
-            'edu@teste.com'
+            'edu@teste.com',
+            '12345678'
         );
 
         $pessoa->setEmail('novo@endereco.com');
@@ -38,7 +40,8 @@ class PessoaTest extends TestCase
         $pessoa = Pessoa::comDocumentoNomeEEmail(
             '213.564.879-12',
             'Edu',
-            'edu@teste.com'
+            'edu@teste.com',
+            '12345678'
         );
 
         $pessoa->setDocumento('123.456.789-10');

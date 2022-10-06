@@ -10,14 +10,14 @@ class Pessoa extends Usuario implements \JsonSerializable
 {
     private Cpf $cpf;
 
-    public static function comDocumentoNomeEEmail(string $documento, string $nome, string $email): self 
+    public static function comDocumentoNomeEEmail(string $documento, string $nome, string $email, string $senha): self 
     {
-        return new Pessoa(new Cpf($documento), $nome, new Email($email));
+        return new Pessoa(new Cpf($documento), $nome, new Email($email), $senha);
     }
 
-    public function __construct(Cpf $cpf, string $nome, Email $email)
+    public function __construct(Cpf $cpf, string $nome, Email $email, string $senha)
     {
-        parent::__construct($nome, $email);
+        parent::__construct($nome, $email, $senha);
         
         $this->cpf = $cpf;
     }

@@ -21,3 +21,6 @@ Pessoa (App\Testes\Dominio\Pessoa\Pessoa)
  [x] Pessoa deve poder atualizar o email
  [x] Pessoa deve poder atualizar o cpf
 
+Cifrador De Senha Php (App\Testes\Infra\CifradorDeSenhaPhp)
+ [x] Cifrador de senha php deve cifrar e verificar
+

@@ -9,7 +9,7 @@
 
         <field name="email" column="email" type="email" length="45" nullable="false" />
 
-        <field name="senha" column="senha" type="string" length="19" nullable="true" />
+        <field name="senha" column="senha" type="string" length="200" nullable="true" />
         
     </mapped-superclass>
 </doctrine-mapping>

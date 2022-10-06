@@ -6,6 +6,7 @@ use App\Infra\RepositoriosEmMemoria\RepositorioDePessoaEmMemoria;
 use App\Aplicacao\Usuario\Pessoa\RegistrarPessoa\RegistrarPessoaDto;
 use App\Aplicacao\Usuario\Pessoa\RegistrarPessoa\RegistrarPessoa;
 use App\Dominio\Cpf;
+use App\Infra\CifradorDeSenhaPhp;
 use PHPUnit\Framework\TestCase;
 
 class RegistrarPessoaTest extends TestCase
@@ -19,9 +20,11 @@ class RegistrarPessoaTest extends TestCase
         );
 
         $repositorioDePessoa = new RepositorioDePessoaEmMemoria();
-        $useCase = new RegistrarPessoa($repositorioDePessoa);
+        $cifradorDeSenha = new CifradorDeSenhaPhp();
 
-        $useCase->executa($dadosPessoa);
+        $useCase = new RegistrarPessoa($repositorioDePessoa, $cifradorDeSenha);
+
+        $useCase->executa($dadosPessoa, '12345678');
 
         $pessoa = $repositorioDePessoa->buscarPorCpf(new Cpf('123.456.789-10'));
         $this->assertSame('Eduardo', (string) $pessoa->getNome());

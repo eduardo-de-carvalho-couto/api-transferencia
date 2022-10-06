@@ -11,12 +11,13 @@ abstract class Usuario
     protected Email $email;
     protected string $senha;
 
-    abstract public static function comDocumentoNomeEEmail(string $documento, string $nome, string $email): self;
+    abstract public static function comDocumentoNomeEEmail(string $documento, string $nome, string $email, string $senha): self;
 
-    public function __construct(string $nome, Email $email)
+    public function __construct(string $nome, Email $email, string $senha)
     {
         $this->nome = $nome;
         $this->email = $email;
+        $this->senha = $senha;
     }
 
     public function getId(): int

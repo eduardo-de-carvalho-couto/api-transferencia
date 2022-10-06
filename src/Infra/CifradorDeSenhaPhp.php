@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Transferencia\Infra;
+namespace App\Infra;
 
 use App\Dominio\Usuario\CifradorDeSenha;
 
