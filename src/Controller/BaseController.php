@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class BaseController extends AbstractController
+abstract class BaseController extends AbstractController implements TokenAuthenticatedController
 {
     /**
      * @var RepositorioInterface

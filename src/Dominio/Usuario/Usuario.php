@@ -3,6 +3,7 @@
 namespace App\Dominio\Usuario;
 
 use App\Dominio\Email;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class Usuario
 {
@@ -47,5 +48,10 @@ abstract class Usuario
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getSenha(): string
+    {
+        return $this->senha;
     }
 }

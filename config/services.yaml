@@ -35,3 +35,11 @@ services:
     App\Controller\PessoaController:
         arguments:
             $pessoasRepositorio: '@RepositorioDePessoaComDoctrine'
+
+    App\Controller\LoginController:
+        arguments:
+            $repositorioDePessoa: '@RepositorioDePessoaComDoctrine'
+
+    # App\Security\JwtAutenticador:
+    #    arguments:
+    #        $repositorioPessoas: '@RepositorioDePessoaComDoctrine'

@@ -31,5 +31,3 @@ remove_pessoa:
     controller: App\Controller\PessoaController::remove
     methods:
         - DELETE
-
-
