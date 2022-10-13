@@ -3,13 +3,10 @@
 namespace App\Events;
 
 use App\Controller\TokenAuthenticatedController;
-use App\Dominio\Usuario\RepositorioInterface;
 use App\Infra\Usuario\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -20,6 +17,8 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 class Autenticador implements EventSubscriberInterface
 {
     private $token;
+
+    private $requestId;
 
     private $repositorioDePessoa;
 
@@ -32,7 +31,13 @@ class Autenticador implements EventSubscriberInterface
     {
         $controller = $event->getController();
 
-        if (is_array($controller)) {
+        $metodoAtualizar = false;
+
+        if (is_array($controller) && in_array('atualizar', $controller)){
+            $metodoAtualizar = true;
+        }
+
+        if (is_array($controller) && !in_array('novo', $controller)) {
             $controller = $controller[0];
         }
         
@@ -67,7 +72,11 @@ class Autenticador implements EventSubscriberInterface
                 throw new AccessDeniedException();
             }
 
-            return $user;
+            if ($metodoAtualizar == true && $user->getId() != $this->requestId){
+                throw new CustomUserMessageAccountStatusException(
+                    'Usuario não autorizado a atualizar este perfil.'
+                );
+            }
         }
     }
 
@@ -82,17 +91,18 @@ class Autenticador implements EventSubscriberInterface
         //
     }
 
-    public function autorizacao(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
         $this->token = $request->headers->get('Authorization');
+        $this->requestId = $request->get('id');
     }
 
     public static function getSubscribedEvents()
     {
         return [
             KernelEvents::CONTROLLER => 'autenticar',
-            RequestEvent::class => 'autorizacao',
+            RequestEvent::class => 'onKernelRequest',
         ];
     }
 }
