@@ -32,9 +32,14 @@ class Autenticador implements EventSubscriberInterface
         $controller = $event->getController();
 
         $metodoAtualizar = false;
+        $metodoRemover = false;
 
         if (is_array($controller) && in_array('atualizar', $controller)){
             $metodoAtualizar = true;
+        }
+
+        if (is_array($controller) && in_array('remove', $controller)){
+            $metodoRemover = true;
         }
 
         if (is_array($controller) && !in_array('novo', $controller)) {
@@ -75,6 +80,12 @@ class Autenticador implements EventSubscriberInterface
             if ($metodoAtualizar == true && $user->getId() != $this->requestId){
                 throw new CustomUserMessageAccountStatusException(
                     'Usuario não autorizado a atualizar este perfil.'
+                );
+            }
+
+            if ($metodoRemover == true && $user->getId() != $this->requestId){
+                throw new CustomUserMessageAccountStatusException(
+                    'Usuario não autorizado a remover este perfil.'
                 );
             }
         }
