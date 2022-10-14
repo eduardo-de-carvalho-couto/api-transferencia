@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Infra\Type\TipoCnpj;
 use App\Infra\Type\TipoCpf;
 use App\Infra\Type\TipoEmail;
 use Doctrine\DBAL\Types\Type;
@@ -21,9 +22,17 @@ class EntityManagerCreator
             'path' => __DIR__ . '/../../var/db.sqlite',
         ];
 
-        Type::addType('email', TipoEmail::class);
-        Type::addType('cpf', TipoCpf::class);
-
+        
+        if (!Type::hasType('email')) {
+            Type::addType('email', TipoEmail::class);
+        }
+        if (!Type::hasType('cpf')) {
+            Type::addType('cpf', TipoCpf::class);
+        }
+        if (!Type::hasType('cnpj')) {
+            Type::addType('cnpj', TipoCnpj::class);
+        }
+        
         $em = EntityManager::create($con, $config);
         $em->getConnection()
         ->getDatabasePlatform()
@@ -32,6 +41,10 @@ class EntityManagerCreator
         $em->getConnection()
         ->getDatabasePlatform()
         ->registerDoctrineTypeMapping('CPF', 'cpf');
+
+        $em->getConnection()
+        ->getDatabasePlatform()
+        ->registerDoctrineTypeMapping('CNPJ', 'cnpj');
 
         return $em;
     }

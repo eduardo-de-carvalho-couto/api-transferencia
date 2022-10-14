@@ -6,7 +6,7 @@ use App\Dominio\Cnpj;
 use App\Dominio\Email;
 use App\Dominio\Usuario\Usuario;
 
-class Loja extends Usuario
+class Loja extends Usuario implements \JsonSerializable
 {
     private Cnpj $cnpj;
 
@@ -22,8 +22,30 @@ class Loja extends Usuario
         $this->cnpj = $cnpj;
     }
 
+    public function setDocumento(string $cnpj): self
+    {
+        $this->cnpj = new Cnpj($cnpj);
+        return $this;
+    }
+
     public function getDocumento(): string
     {
         return $this->cnpj;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'documento' => $this->getDocumento(),
+            'nome' => $this->getNome(),
+            'email' => $this->getEmail(),
+            '_links' => [
+                [
+                    'rel' => 'self',
+                    'path' => '/lojas/' . $this->getId()
+                ],
+            ],
+        ];
     }
 }

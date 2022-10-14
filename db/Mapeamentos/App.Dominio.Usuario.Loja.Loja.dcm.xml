@@ -5,7 +5,7 @@
 
       <entity name="App\Dominio\Usuario\Loja\Loja" table="lojas">
 
-        <field name="cnpj" type="string" length="19" />
+        <field name="cnpj" type="cnpj" length="19" />
           
       </entity>
 </doctrine-mapping>

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Infra\CifradorDeSenhaPhp;
 use App\Infra\RepositoriosComDoctrine\RepositorioDeLojaComDoctrine;
-use App\Infra\Usuario\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
+use App\Infra\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,7 +44,7 @@ class LoginController extends AbstractController
         }
 
         $user = array_key_exists('cnpj', $dadosEmJson) 
-            ? $this->repositorioDeLoja 
+            ? $this->repositorioDeLoja->getRegistro()->findOneBy(['cnpj' => $dadosEmJson['cnpj']])
             : $this->repositorioDePessoa->getRegistro()->findOneBy([
                 'cpf' => $dadosEmJson['cpf']
             ]);
@@ -60,7 +60,7 @@ class LoginController extends AbstractController
         $token = property_exists($user, 'cnpj') 
             ? JWT::encode(['cnpj' => $user->getDocumento()], 'minha_chave_secreta', 'HS256') 
             : JWT::encode(['cpf' => $user->getDocumento()], 'minha_chave_secreta', 'HS256');
-
+        
         return new JsonResponse([
             'access_token' => $token
         ]);

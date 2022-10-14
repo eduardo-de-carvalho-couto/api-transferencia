@@ -31,7 +31,10 @@ services:
     # please note that last definitions always *replace* previous ones
 
     RepositorioDePessoaComDoctrine:
-        class: App\Infra\Usuario\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine
+        class: App\Infra\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine
+    
+    RepositorioDeLojaComDoctrine:
+        class: App\Infra\RepositoriosComDoctrine\RepositorioDeLojaComDoctrine
     
     App\Controller\PessoaController:
         arguments:
@@ -44,3 +47,4 @@ services:
     App\Events\Autenticador:
         arguments:
             $repositorioDePessoa: '@RepositorioDePessoaComDoctrine'
+            $repositorioDeLoja: '@RepositorioDeLojaComDoctrine'

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Infra\Usuario\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
+use App\Infra\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
 
 class PessoaController extends BaseController
 {

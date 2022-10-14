@@ -3,7 +3,8 @@
 namespace App\Events;
 
 use App\Controller\TokenAuthenticatedController;
-use App\Infra\Usuario\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
+use App\Dominio\Usuario\Loja\RepositorioDeLoja;
+use App\Infra\RepositoriosComDoctrine\RepositorioDePessoaComDoctrine;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,9 +23,12 @@ class Autenticador implements EventSubscriberInterface
 
     private $repositorioDePessoa;
 
-    public function __construct(RepositorioDePessoaComDoctrine $repositorioDePessoa)
+    private $repositorioDeLoja;
+
+    public function __construct(RepositorioDePessoaComDoctrine $repositorioDePessoa, RepositorioDeLoja $repositorioDeLoja)
     {
         $this->repositorioDePessoa = $repositorioDePessoa;
+        $this->repositorioDeLoja = $repositorioDeLoja;
     }
 
     public function autenticar(ControllerEvent $event)
@@ -71,7 +75,7 @@ class Autenticador implements EventSubscriberInterface
 
             $user = property_exists($credentials, 'cpf') 
                 ? $this->getPessoa($credentials->cpf) 
-                : $credentials->cnpj;
+                : $this->getLoja($credentials->cnpj);
             
             if(is_null($user)){
                 throw new AccessDeniedException();
@@ -97,9 +101,10 @@ class Autenticador implements EventSubscriberInterface
         return $user;
     }
 
-    private function getLoja()
+    private function getLoja(string $documento)
     {
-        //
+        $user = $this->repositorioDeLoja->getRegistro()->findOneBy(['cnpj' => $documento]);
+        return $user;
     }
 
     public function onKernelRequest(RequestEvent $event)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Usuario\RepositoriosComDoctrine;
+namespace App\Infra\RepositoriosComDoctrine;
 
 use App\Aplicacao\Usuario\UsuarioDto;
 use App\Dominio\Cpf;
@@ -13,10 +13,7 @@ use Doctrine\ORM\EntityRepository;
 
 class RepositorioDePessoaComDoctrine implements RepositorioInterface, RepositorioDePessoa
 {
-    /**
-     *  @var EntityManagerInterface
-     */
-    private $entityManager;
+    
 
     /**
      * @var EntityRepository

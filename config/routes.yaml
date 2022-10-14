@@ -31,3 +31,33 @@ remove_pessoa:
     controller: App\Controller\PessoaController::remove
     methods:
         - DELETE
+
+nova_loja:
+    path: /lojas
+    controller: App\Controller\LojaController::novo
+    methods:
+        - POST
+
+lojas:
+    path: /lojas
+    controller: App\Controller\LojaController::buscarTodos
+    methods:
+        - GET
+
+loja:
+    path: /lojas/{id}
+    controller: App\Controller\LojaController::buscarUsuario
+    methods:
+        - GET
+
+atualiza_loja:
+    path: /lojas/{id}
+    controller: App\Controller\LojaController::atualizar
+    methods:
+        - PUT
+
+remove_loja:
+    path: /lojas/{id}
+    controller: App\Controller\LojaController::remove
+    methods:
+        - DELETE
