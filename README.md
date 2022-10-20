@@ -40,7 +40,7 @@ No path /pessoas ou /lojas com o verbo HTTP POST
 {
     "documento": "847.138.675-81",
     "nome": "tom bombadil",
-    "email": "tom@bombador.com",
+    "email": "tom@bombadil.com",
     "senha": "12345678"
 }
 ```
