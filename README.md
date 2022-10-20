@@ -74,6 +74,39 @@ E no caso de Loja, envie
 
 ## Utilize o JWT para ter acesso a todos os outros paths
 
+Buscar Pessoas:
+```
+/pessoas
+```
+Buscar Pessoa:
+```
+/pessoas/{id}
+```
+Atualizar Pessoa:
+```
+/pessoas/{id}
+```
+Remover Pessoa
+```
+/pessoas/{id}
+```
+Buscar Lojas:
+```
+/lojas
+```
+Buscar Loja:
+```
+/lojas/{id}
+```
+Atualizar Loja:
+```
+/lojas/{id}
+```
+Remover Loja:
+```
+/lojas/{id}
+```
+
 ## Planos para este projeto
 
 Usuarios do tipo Pessoa poderão pagar e receber. Lojistas só poderão receber.
